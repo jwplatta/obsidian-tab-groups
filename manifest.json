@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-tab-groups",
+	"name": "Obsidian Tab Groups",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Obsidian plugin for creating and managing tab groupings.",
+	"author": "Joseph Platta",
+	"authorUrl": "https://github.com/jwplatta",
+	"isDesktopOnly": false
+}
