@@ -238,13 +238,8 @@ export class TabGroupsManager {
 		});
 
 		const toOpen = group.leaves.filter(l => !alreadyOpen.has(l.filePath));
-		let first = true;
 		for (const saved of toOpen) {
-			const leaf = first
-				? this.app.workspace.getLeaf(false)
-				: this.app.workspace.getLeaf("tab" as Parameters<typeof this.app.workspace.getLeaf>[0]);
-			// Only use getLeaf(false) if there are no other open leaves
-			first = false;
+			const leaf = this.app.workspace.getLeaf("tab" as Parameters<typeof this.app.workspace.getLeaf>[0]);
 			if (saved.viewType === "markdown") {
 				const file = this.app.vault.getAbstractFileByPath(saved.filePath);
 				if (file instanceof TFile) {
