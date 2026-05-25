@@ -1,62 +1,70 @@
 # Contributing
 
-Contributions are welcome. Please open an issue before submitting a pull request for significant changes.
-
 ## Development Setup
 
-**Prerequisites:** Node.js 16+, npm
+1. Install Node.js 16+ and npm.
+2. Install dependencies:
 
 ```bash
-git clone https://github.com/jwplatta/obsidian-tab-groups.git
-cd obsidian-tab-groups
 npm install
 ```
 
-## Building
+3. Build the plugin:
 
 ```bash
-npm run build       # production build → main.js
+npm run build
 ```
 
-## Local Testing
-
-Copy the built plugin into a development vault:
+4. Install into a development vault:
 
 ```bash
 bin/install-local.sh                        # uses ~/Documents/development_vault
 bin/install-local.sh /path/to/your/vault    # custom vault path
 ```
 
-Then in Obsidian: **Settings → Community plugins → Reload** (or restart Obsidian).
+Then reload the plugin in **Obsidian → Settings → Community plugins**.
+
+## Workflow
+
+1. Start from a focused branch named `feature/...`, `fix/...`, `chore/...`, or `refactor/...`.
+2. Keep changes targeted. Do not mix unrelated cleanup into the same branch.
+3. Update `README.md` for any user-facing behavior changes.
+4. Use [conventional commits](https://www.conventionalcommits.org/) — for example:
+   - `feat: add group reorder buttons to sidebar`
+   - `fix: prevent tabs joining group on adjacent drop`
+   - `chore: update esbuild config`
+5. Use semantic versioning for releases: patch for fixes, minor for new features, major for breaking changes.
+6. Run a build and manually test in Obsidian before opening a pull request.
+
+## Running Checks
+
+```bash
+npm run build    # TypeScript type-check + esbuild bundle
+```
 
 ## Project Structure
 
 ```
 src/
   main.ts                    # Plugin entry point, commands, event registration
-  types.ts                   # Core data structures (TabGroup, TabGroupLeaf, etc.)
+  types.ts                   # Core data structures
   TabGroupsManager.ts        # Business logic: create/switch/open/close/delete/reorder
   TabGroupsColorManager.ts   # CSS injection, tab header coloring, drag detection
   TabGroupsSidebarView.ts    # Obsidian ItemView wrapper for the React sidebar
-  modals.ts                  # Command palette modals (FuzzySuggestModal subclasses)
+  modals.ts                  # Command palette modals
   settings.ts                # Plugin settings tab
-  components/
-    TabGroupsSidebar.tsx     # React root component
-    TabGroupList.tsx         # Group list
-    TabGroupItem.tsx         # Single group row with actions
-    CreateGroupForm.tsx      # Name input + create button
-    index.ts                 # Barrel exports
+  components/                # React components for the sidebar panel
 styles.css                   # Plugin styles
 bin/
   install-local.sh           # Local dev install helper
 ```
 
-## Pull Request Guidelines
+## Pull Requests
 
-- Keep PRs focused — one feature or fix per PR
-- Match the existing TypeScript and React style
-- Test manually in Obsidian before submitting
-- Update `README.md` if you add or change user-facing behavior
+- Keep commits focused and intentional.
+- Use conventional commit messages.
+- Test manually in Obsidian before submitting.
+- Document any user-facing changes in `README.md`.
 
 ## Reporting Issues
 
