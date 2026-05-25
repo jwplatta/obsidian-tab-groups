@@ -26,6 +26,7 @@
     "jsx": "react"
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ]
 }

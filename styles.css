@@ -1,8 +1,201 @@
-/*
+/* Tab Groups Plugin */
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+/* Sidebar panel */
+.tab-groups-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px 0;
+}
 
-If your plugin does not need CSS, delete this file.
+.tab-groups-sidebar__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 8px;
+  font-weight: 600;
+  font-size: var(--font-ui-medium);
+  color: var(--text-normal);
+}
 
-*/
+.tab-groups-sidebar__title {
+  flex: 1;
+}
+
+/* Create form */
+.tab-group-create-form {
+  display: flex;
+  gap: 6px;
+  padding: 0 8px 8px;
+}
+
+.tab-group-create-form__input {
+  flex: 1;
+  font-size: var(--font-ui-small);
+}
+
+.tab-group-create-form__btn {
+  white-space: nowrap;
+  font-size: var(--font-ui-small);
+}
+
+.tab-group-create-form__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Group list */
+.tab-group-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tab-group-empty {
+  padding: 16px 12px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  text-align: center;
+}
+
+/* Group item */
+.tab-group-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  cursor: default;
+  position: relative;
+}
+
+.tab-group-item:hover {
+  background: var(--background-modifier-hover);
+}
+
+.tab-group-item--active {
+  background: var(--background-modifier-active-hover);
+}
+
+.tab-group-item__color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tab-group-item__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tab-group-item__name {
+  font-size: var(--font-ui-small);
+  color: var(--text-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-group-item__rename-input {
+  font-size: var(--font-ui-small);
+  width: 100%;
+}
+
+.tab-group-item__badge {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  background: var(--background-modifier-border);
+  border-radius: 10px;
+  padding: 0 6px;
+  display: inline-block;
+  line-height: 1.6;
+}
+
+.tab-group-item__actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.tab-group-item:hover .tab-group-item__actions {
+  opacity: 1;
+}
+
+.tab-group-item__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.tab-group-item__btn:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.tab-group-item__btn--danger:hover {
+  color: var(--text-error);
+}
+
+/* Tab header — needed for box-shadow stripe to work */
+.workspace-tab-header {
+  position: relative;
+}
+
+/* Chrome-style group label chip injected before the first tab in a group */
+.tab-group-label {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 80px;
+  text-overflow: ellipsis;
+  cursor: grab;
+  margin: 0 2px 0 4px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  line-height: 20px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  user-select: none;
+}
+
+.tab-group-label:active {
+  cursor: grabbing;
+}
+
+.tab-group-label--dragging {
+  opacity: 0.5;
+}
+
+/* Highlight on a tab header when dragging a group over it */
+.workspace-tab-header.tab-group-drag-over {
+  background: var(--background-modifier-hover) !important;
+  outline: 2px dashed var(--interactive-accent);
+  outline-offset: -2px;
+}
+
+/* Vertical drop position indicator line */
+.tab-group-drop-indicator {
+  position: fixed;
+  width: 3px;
+  background: var(--interactive-accent);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translateX(-50%);
+}

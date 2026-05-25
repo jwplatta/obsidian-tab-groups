@@ -18,8 +18,7 @@ const context = await esbuild.context({
 	entryPoints: ["src/main.ts"],
 	bundle: true,
 	external: [
-    'react',
-    'react-dom',		"obsidian",
+		"obsidian",
 		"electron",
 		"@codemirror/autocomplete",
 		"@codemirror/collab",
