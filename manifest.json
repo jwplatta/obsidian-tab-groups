@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-tab-groups",
-	"name": "Obsidian Tab Groups",
+	"id": "tab-groups",
+	"name": "Tab Groups",
 	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Obsidian plugin for creating and managing tab groupings.",
+	"minAppVersion": "1.0.0",
+	"description": "Create and manage named, color-coded groups of tabs that persist across sessions.",
 	"author": "Joseph Platta",
 	"authorUrl": "https://github.com/jwplatta",
 	"isDesktopOnly": false

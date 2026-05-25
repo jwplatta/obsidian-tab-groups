@@ -22,15 +22,17 @@ export default class TabGroupsPlugin extends Plugin {
 				this.colorManager.refresh(this.manager.getGroups());
 				this.refreshSidebar();
 			},
-			onOpen: async (groupId) => {
-				await this.manager.openGroup(groupId);
-				this.colorManager.refresh(this.manager.getGroups());
-				this.refreshSidebar();
+			onOpen: (groupId) => {
+				void this.manager.openGroup(groupId).then(() => {
+					this.colorManager.refresh(this.manager.getGroups());
+					this.refreshSidebar();
+				});
 			},
-			onSwitch: async (groupId) => {
-				await this.manager.switchToGroup(groupId);
-				this.colorManager.refresh(this.manager.getGroups());
-				this.refreshSidebar();
+			onSwitch: (groupId) => {
+				void this.manager.switchToGroup(groupId).then(() => {
+					this.colorManager.refresh(this.manager.getGroups());
+					this.refreshSidebar();
+				});
 			},
 			onDelete: (groupId) => {
 				const group = this.manager.getGroups().find(g => g.id === groupId);
@@ -69,7 +71,7 @@ export default class TabGroupsPlugin extends Plugin {
 			name: "Add current tab to group...",
 			callback: () => {
 				const groups = this.manager.getGroups();
-				const activeLeaf = this.app.workspace.activeLeaf;
+				const activeLeaf = this.app.workspace.getMostRecentLeaf();
 				if (!activeLeaf) {
 					new Notice("No active tab.");
 					return;
@@ -91,7 +93,7 @@ export default class TabGroupsPlugin extends Plugin {
 			id: "remove-from-tab-group",
 			name: "Remove current tab from its group",
 			callback: () => {
-				const activeLeaf = this.app.workspace.activeLeaf;
+				const activeLeaf = this.app.workspace.getMostRecentLeaf();
 				if (!activeLeaf) {
 					new Notice("No active tab.");
 					return;
@@ -129,10 +131,11 @@ export default class TabGroupsPlugin extends Plugin {
 			callback: () => {
 				const groups = this.manager.getGroups();
 				if (groups.length === 0) { new Notice("No tab groups exist yet."); return; }
-				new SwitchGroupModal(this.app, groups, async (group) => {
-					await this.manager.openGroup(group.id);
-					this.colorManager.refresh(this.manager.getGroups());
-					this.refreshSidebar();
+				new SwitchGroupModal(this.app, groups, (group) => {
+					void this.manager.openGroup(group.id).then(() => {
+						this.colorManager.refresh(this.manager.getGroups());
+						this.refreshSidebar();
+					});
 				}).open();
 			},
 		});
@@ -161,7 +164,7 @@ export default class TabGroupsPlugin extends Plugin {
 				"file-menu",
 				(menu: Menu, _file: TAbstractFile, source: string, leaf?: WorkspaceLeaf) => {
 					if (source !== "tab-header" && source !== "more-options") return;
-					const targetLeaf = leaf ?? this.app.workspace.activeLeaf;
+					const targetLeaf = leaf ?? this.app.workspace.getMostRecentLeaf();
 					if (!targetLeaf) return;
 
 					menu.addSeparator();
@@ -268,12 +271,12 @@ export default class TabGroupsPlugin extends Plugin {
 	async activateSidebarView(): Promise<void> {
 		const existing = this.app.workspace.getLeavesOfType(TAB_GROUPS_SIDEBAR_VIEW_TYPE);
 		if (existing.length > 0 && existing[0]) {
-			this.app.workspace.revealLeaf(existing[0]);
+			void this.app.workspace.revealLeaf(existing[0]);
 			return;
 		}
 		const leaf = this.app.workspace.getRightLeaf(false);
 		if (!leaf) return;
 		await leaf.setViewState({type: TAB_GROUPS_SIDEBAR_VIEW_TYPE, active: true});
-		this.app.workspace.revealLeaf(leaf);
+		void this.app.workspace.revealLeaf(leaf);
 	}
 }
