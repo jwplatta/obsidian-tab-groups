@@ -53,7 +53,7 @@ export default class TabGroupsPlugin extends Plugin {
 		// Commands
 		this.addCommand({
 			id: "create-tab-group",
-			name: "Create tab group from current tabs",
+			name: "Tab Groups: Create group from current tabs",
 			callback: () => {
 				new CreateGroupModal(this.app, (name) => {
 					this.manager.createGroup(name);
@@ -66,7 +66,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "switch-tab-group",
-			name: "Switch to tab group...",
+			name: "Tab Groups: Switch to group...",
 			callback: () => {
 				const groups = this.manager.getGroups();
 				if (groups.length === 0) {
@@ -83,7 +83,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "add-to-tab-group",
-			name: "Add current tab to group...",
+			name: "Tab Groups: Add current tab to group...",
 			callback: () => {
 				const groups = this.manager.getGroups();
 				const activeLeaf = this.app.workspace.activeLeaf;
@@ -106,7 +106,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "remove-from-tab-group",
-			name: "Remove current tab from its group",
+			name: "Tab Groups: Remove current tab from its group",
 			callback: () => {
 				const activeLeaf = this.app.workspace.activeLeaf;
 				if (!activeLeaf) {
@@ -127,7 +127,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "close-tab-group",
-			name: "Close tab group (keep saved)...",
+			name: "Tab Groups: Close group (keep saved)...",
 			callback: () => {
 				const groups = this.manager.getGroups();
 				if (groups.length === 0) { new Notice("No tab groups exist yet."); return; }
@@ -142,7 +142,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "open-tab-group",
-			name: "Open tab group...",
+			name: "Tab Groups: Open group...",
 			callback: () => {
 				const groups = this.manager.getGroups();
 				if (groups.length === 0) { new Notice("No tab groups exist yet."); return; }
@@ -156,7 +156,7 @@ export default class TabGroupsPlugin extends Plugin {
 
 		this.addCommand({
 			id: "delete-tab-group",
-			name: "Delete tab group...",
+			name: "Tab Groups: Delete group...",
 			callback: () => {
 				const groups = this.manager.getGroups();
 				if (groups.length === 0) {

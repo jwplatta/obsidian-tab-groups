@@ -105,16 +105,24 @@ export class TabGroupsManager {
 				currentLeaves.push(leaf);
 			}
 		});
+
+		// Grab the container before detaching so we can append into it after
+		const container = currentLeaves.length > 0
+			? (currentLeaves[0] as unknown as {parent: unknown}).parent
+			: this.getMainTabsContainer();
+
 		for (const leaf of currentLeaves) {
 			leaf.detach();
 		}
 
-		// Open saved leaves
-		for (let i = 0; i < group.leaves.length; i++) {
-			const saved = group.leaves[i];
+		// Open saved leaves appended at the end of the container
+		for (const saved of group.leaves) {
 			if (!saved) continue;
-			const leaf = i === 0
-				? this.app.workspace.getLeaf(false)
+			const leaf = container
+				? this.app.workspace.createLeafInParent(
+						container as unknown as Parameters<typeof this.app.workspace.createLeafInParent>[0],
+						(container as unknown as {children: unknown[]}).children.length
+					)
 				: this.app.workspace.getLeaf("tab" as Parameters<typeof this.app.workspace.getLeaf>[0]);
 
 			if (saved.viewType === "markdown") {
