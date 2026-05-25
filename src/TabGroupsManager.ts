@@ -238,8 +238,22 @@ export class TabGroupsManager {
 		});
 
 		const toOpen = group.leaves.filter(l => !alreadyOpen.has(l.filePath));
+		if (toOpen.length === 0) {
+			this.data.activeGroupId = groupId;
+			await this.onDataChange();
+			return;
+		}
+
+		// Find the WorkspaceTabs container for the main area and append leaves at the end
+		const container = this.getMainTabsContainer();
+
 		for (const saved of toOpen) {
-			const leaf = this.app.workspace.getLeaf("tab" as Parameters<typeof this.app.workspace.getLeaf>[0]);
+			const leaf = container
+				? this.app.workspace.createLeafInParent(
+						container as unknown as Parameters<typeof this.app.workspace.createLeafInParent>[0],
+						(container as unknown as {children: unknown[]}).children.length
+					)
+				: this.app.workspace.getLeaf("tab" as Parameters<typeof this.app.workspace.getLeaf>[0]);
 			if (saved.viewType === "markdown") {
 				const file = this.app.vault.getAbstractFileByPath(saved.filePath);
 				if (file instanceof TFile) {
@@ -254,5 +268,23 @@ export class TabGroupsManager {
 
 		this.data.activeGroupId = groupId;
 		await this.onDataChange();
+	}
+
+	private getMainTabsContainer(): unknown | null {
+		let found: unknown = null;
+		const active = this.app.workspace.activeLeaf;
+		if (active && active.getRoot() === this.app.workspace.rootSplit) {
+			// Use the same container as the active leaf
+			found = (active as unknown as {parent: unknown}).parent;
+		} else {
+			// Fall back to first main-area container
+			this.app.workspace.iterateAllLeaves((leaf: WorkspaceLeaf) => {
+				if (found) return;
+				if (leaf.getRoot() === this.app.workspace.rootSplit) {
+					found = (leaf as unknown as {parent: unknown}).parent;
+				}
+			});
+		}
+		return found;
 	}
 }
