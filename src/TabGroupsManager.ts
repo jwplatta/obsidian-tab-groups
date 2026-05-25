@@ -47,7 +47,7 @@ export class TabGroupsManager {
 	}
 
 	getGroups(): TabGroup[] {
-		return this.data.groups;
+		return [...this.data.groups];
 	}
 
 	getActiveGroupId(): string | null {

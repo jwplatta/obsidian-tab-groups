@@ -9,7 +9,8 @@ function makeApp(leaves: WorkspaceLeaf[] = []): App {
 }
 
 function makeLeaf(filePath: string, viewType = "markdown"): WorkspaceLeaf {
-  return new WorkspaceLeaf(filePath, viewType);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return new (WorkspaceLeaf as any)(filePath, viewType) as WorkspaceLeaf;
 }
 
 function emptyData(): TabGroupsPluginData {
